@@ -1,4 +1,4 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +6,21 @@
     android:orientation="vertical">
 
 
+
+
+
+
+    <fragment
+        android:layout_below="@+id/searchContainer"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.vedmitryapps.googlemapstest.MapsActivity" />
+
+
     <RelativeLayout
+        android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,6 +31,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:background="#000000FF"
             android:id="@+id/onSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,13 +43,15 @@
 
     </RelativeLayout>
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.vedmitryapps.googlemapstest.MapsActivity" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/textLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
 
 
