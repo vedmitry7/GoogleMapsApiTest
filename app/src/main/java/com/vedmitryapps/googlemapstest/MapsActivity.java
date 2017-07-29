@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +30,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+
+    /**
+     * Variable to find device
+     */
+    private GPSTracker gpsTracker;
+    private Location mLocation;
+    double latitude, longitude;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +47,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        gpsTracker = new GPSTracker(getApplicationContext());
+        mLocation = gpsTracker.getLocation();
+        latitude = mLocation.getLatitude();
+        longitude = mLocation.getLongitude();
     }
 
 
@@ -62,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
         /**
          * Клик Достопримечательности
          */
@@ -74,11 +91,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        LatLng sydney = new LatLng(0, 0);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        System.out.println("my loc - true");
+        /**
+         * Тип карты
+         */
+        //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+
+        LatLng sydney = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("I'm here..."));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 
 
@@ -134,6 +156,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("TAG", "Map Click" );
         Log.d("TAG","Долгота " + latLng.latitude);
         Log.d("TAG","Ширина " + latLng.longitude);
+
+        TextView mTextLatitude = (TextView) findViewById(R.id.textLatitude);
+        TextView mTextLongitude = (TextView) findViewById(R.id.textLongitude);
+
+        mTextLatitude.setText("Долгота: " + latLng.latitude);
+        mTextLongitude.setText("Ширина " + latLng.longitude);
     }
 
     @Override
